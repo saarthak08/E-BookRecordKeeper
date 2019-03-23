@@ -43,4 +43,20 @@ public class Repository {
     {
         new AddBookService(bookDAO).execute(book);
     }
+    public void updateCategory(Category category)
+    {
+        new UpdateCategoryService(categoryDAO).execute(category);
+    }
+    public void updateBook(Book book)
+    {
+        new UpdateBookService(bookDAO).execute(book);
+    }
+    public void deleteCategory(Category category)
+    {
+        new DeleteCategoryService(categoryDAO).execute(category);
+    }
+    public void deleteBook(Book book)
+    {
+        new DeleteBookService(bookDAO).execute(book);
+    }
 }
