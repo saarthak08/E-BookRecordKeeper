@@ -34,6 +34,10 @@ public class Repository {
         return bookDAO.getAllBooks();
     }
 
+    public LiveData<List<Book>> getCertainBooks(int id)
+    {
+        return bookDAO.getCertainBooks(id);
+    }
     public void addCategory(Category category)
     {
         new AddCategoryService(categoryDAO).execute(category);
