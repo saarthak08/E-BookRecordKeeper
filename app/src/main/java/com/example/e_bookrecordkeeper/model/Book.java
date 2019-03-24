@@ -1,8 +1,14 @@
 package com.example.e_bookrecordkeeper.model;
 
 
+import android.os.Build;
+
 import com.example.e_bookrecordkeeper.BR;
 
+import java.util.Objects;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.room.ColumnInfo;
@@ -75,5 +81,24 @@ public class Book extends BaseObservable {
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
         notifyPropertyChanged(BR.categoryId);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(this==obj)
+        {
+            return true;
+        }
+        if(!(obj instanceof Book)){
+            return false;
+        }
+        Book book=(Book)obj;
+        return getBookId()==book.getBookId()&&getBookName()==book.getBookName()&&getBookPrice()==book.getBookPrice()&&getCategoryId()==book.getCategoryId();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBookId(),getBookName(),getBookPrice(),getCategoryId());
     }
 }
