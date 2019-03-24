@@ -18,6 +18,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     private LiveData<List<Book>> book;
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
+        repository=new Repository(application);
     }
     public LiveData<List<Category>> getAllCategories()
     {
