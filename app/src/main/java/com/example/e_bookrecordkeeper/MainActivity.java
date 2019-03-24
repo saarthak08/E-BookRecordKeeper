@@ -1,5 +1,6 @@
 package com.example.e_bookrecordkeeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -7,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.example.e_bookrecordkeeper.databinding.ActivityMainBinding;
 import com.example.e_bookrecordkeeper.model.Book;
@@ -18,12 +18,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Book> bookArrayList;
     private RecyclerView booksRecyclerView;
     private BooksAdapter booksAdapter;
+    private int selectedBookId;
+    public static final int ADD_BOOK_REQUEST_CODE=1;
+    public static final int EDIT_BOOK_REQUEST_CODE=2;
 
 
 
@@ -72,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
     {
         public void onFABButtonClicked(View view)
         {
-            Toast.makeText(getApplicationContext(),"FAB Button Clicked",Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(MainActivity.this,AddAndEditActivity.class);
+            startActivityForResult(intent,ADD_BOOK_REQUEST_CODE);
+
         }
         public void onSelectItem(AdapterView<?> parent, View view, int pos, long id) {
             selectedCategory = (Category) parent.getItemAtPosition(pos);
@@ -98,6 +105,31 @@ public class MainActivity extends AppCompatActivity {
         booksAdapter = new BooksAdapter();
         booksRecyclerView.setAdapter(booksAdapter);
         booksAdapter.setBooks(bookArrayList);
+        booksAdapter.setListener(new BooksAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Book book) {
+                selectedBookId=book.getBookId();
+                Log.i("BookIdTest"," at 1 id is "+selectedBookId);
+                Intent intent=new Intent(MainActivity.this, AddAndEditActivity.class);
+                intent.putExtra(AddAndEditActivity.BOOK_ID,selectedBookId);
+                Log.i("BookIdTest"," at 2 id is "+selectedBookId);
+                intent.putExtra(AddAndEditActivity.BOOK_NAME,book.getBookName());
+                intent.putExtra(AddAndEditActivity.UNIT_PRICE,book.getBookPrice());
+                startActivityForResult(intent,EDIT_BOOK_REQUEST_CODE);
+            }
+        });
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                Book bookToDelete=bookArrayList.get(viewHolder.getAdapterPosition());
+                viewModel.deleteBook(bookToDelete);
+            }
+        }).attachToRecyclerView(booksRecyclerView);
     }
 
     @Override
@@ -118,6 +150,35 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("BookIdTest"," at 4 top id is "+selectedBookId);
+        int selectedCategoryId=selectedCategory.getId();
+        if(requestCode==ADD_BOOK_REQUEST_CODE && resultCode==RESULT_OK){
+            Log.i("BookIdTest"," at 4 wrong 2 id is "+selectedBookId);
+            Book book=new Book();
+            book.setCategoryId(selectedCategoryId);
+            book.setBookName(data.getStringExtra(AddAndEditActivity.BOOK_NAME));
+            book.setBookPrice(data.getStringExtra(AddAndEditActivity.UNIT_PRICE));
+            viewModel.addBook(book);
+
+
+
+        } else if (requestCode == EDIT_BOOK_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            Book book=new Book();
+            book.setCategoryId(selectedCategoryId);
+            book.setBookName(data.getStringExtra(AddAndEditActivity.BOOK_NAME));
+            book.setBookPrice(data.getStringExtra(AddAndEditActivity.UNIT_PRICE));
+            Log.i("BookIdTest"," at 4 id is "+selectedBookId);
+            book.setBookId(selectedBookId);
+            viewModel.updateBook(book);
+
+
+        }
     }
 
 }
