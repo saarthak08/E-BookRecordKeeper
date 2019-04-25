@@ -1,7 +1,6 @@
 package com.example.e_bookrecordkeeper.di;
 
 import android.app.Application;
-import android.content.Context;
 
 import javax.inject.Singleton;
 
@@ -17,7 +16,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    Context getApplicationContext()
+    Application getApplicationContext()
     {
         return application;
     }

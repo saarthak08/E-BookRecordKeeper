@@ -9,15 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import com.example.e_bookrecordkeeper.databinding.ActivityMainBinding;
-import com.example.e_bookrecordkeeper.model.Book;
-import com.example.e_bookrecordkeeper.model.Category;
-import com.example.e_bookrecordkeeper.viewmodel.MainActivityViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +19,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.e_bookrecordkeeper.databinding.ActivityMainBinding;
+import com.example.e_bookrecordkeeper.di.App;
+import com.example.e_bookrecordkeeper.model.Book;
+import com.example.e_bookrecordkeeper.model.Category;
+import com.example.e_bookrecordkeeper.repository.Repository;
+import com.example.e_bookrecordkeeper.viewmodel.MainActivityViewModel;
+import com.example.e_bookrecordkeeper.viewmodel.MainActivityViewModelFactory;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
@@ -40,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private int selectedBookId;
     public static final int ADD_BOOK_REQUEST_CODE=1;
     public static final int EDIT_BOOK_REQUEST_CODE=2;
+    @Inject
+    public Repository repository;
 
 
 
@@ -52,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding= DataBindingUtil.setContentView(MainActivity.this,R.layout.activity_main);
         activityMainBinding.setClickHandlers(new MainActivityClickHandler());
         FloatingActionButton fab = findViewById(R.id.fab);
-        viewModel= ViewModelProviders.of(MainActivity.this).get(MainActivityViewModel.class);
+       // viewModel= ViewModelProviders.of(MainActivity.this).get(MainActivityViewModel.class);
+        App.getApp().getComponent().inject(this);
+        viewModel= ViewModelProviders.of(MainActivity.this, new MainActivityViewModelFactory(repository)).get(MainActivityViewModel.class);
         viewModel.getAllCategories().observe(MainActivity.this, new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
