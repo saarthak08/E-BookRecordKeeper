@@ -58,7 +58,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 @Override
                 public void onClick(View v) {
                     int clickedPosition=getAdapterPosition();
-
                     if(listener!=null && clickedPosition!=RecyclerView.NO_POSITION) {
                         listener.onItemClick(books.get(clickedPosition));
                     }

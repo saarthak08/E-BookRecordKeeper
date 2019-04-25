@@ -1,6 +1,7 @@
 package com.example.e_bookrecordkeeper.viewmodel;
 
-import android.app.Application;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.e_bookrecordkeeper.model.Book;
 import com.example.e_bookrecordkeeper.model.Category;
@@ -8,17 +9,12 @@ import com.example.e_bookrecordkeeper.repository.Repository;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-
-public class MainActivityViewModel extends AndroidViewModel {
+public class MainActivityViewModel extends ViewModel {
     private Repository repository;
     private LiveData<List<Category>> category;
     private LiveData<List<Book>> book;
-    public MainActivityViewModel(@NonNull Application application) {
-        super(application);
-        repository=new Repository(application);
+    public MainActivityViewModel(Repository repository) {
+        this.repository=repository;
     }
     public LiveData<List<Category>> getAllCategories()
     {
