@@ -1,4 +1,4 @@
-package com.example.e_bookrecordkeeper;
+package com.example.e_bookrecordkeeper.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,11 +20,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.e_bookrecordkeeper.R;
+import com.example.e_bookrecordkeeper.adapter.BooksAdapter;
 import com.example.e_bookrecordkeeper.databinding.ActivityMainBinding;
 import com.example.e_bookrecordkeeper.di.App;
 import com.example.e_bookrecordkeeper.model.Book;
 import com.example.e_bookrecordkeeper.model.Category;
-import com.example.e_bookrecordkeeper.repository.Repository;
 import com.example.e_bookrecordkeeper.viewmodel.MainActivityViewModel;
 import com.example.e_bookrecordkeeper.viewmodel.MainActivityViewModelFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int ADD_BOOK_REQUEST_CODE=1;
     public static final int EDIT_BOOK_REQUEST_CODE=2;
     @Inject
-    public Repository repository;
+    MainActivityViewModelFactory mainActivityViewModelFactory;
+
 
 
 
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
        // viewModel= ViewModelProviders.of(MainActivity.this).get(MainActivityViewModel.class);
         App.getApp().getComponent().inject(this);
-        viewModel= ViewModelProviders.of(MainActivity.this, new MainActivityViewModelFactory(repository)).get(MainActivityViewModel.class);
+        viewModel= ViewModelProviders.of(MainActivity.this, mainActivityViewModelFactory).get(MainActivityViewModel.class);
         viewModel.getAllCategories().observe(MainActivity.this, new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {

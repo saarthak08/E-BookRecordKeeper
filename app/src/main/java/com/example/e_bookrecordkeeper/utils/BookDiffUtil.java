@@ -1,10 +1,10 @@
-package com.example.e_bookrecordkeeper;
+package com.example.e_bookrecordkeeper.utils;
+
+import androidx.recyclerview.widget.DiffUtil;
 
 import com.example.e_bookrecordkeeper.model.Book;
 
 import java.util.ArrayList;
-
-import androidx.recyclerview.widget.DiffUtil;
 
 public class BookDiffUtil extends DiffUtil.Callback {
     private ArrayList<Book> oldBookList;

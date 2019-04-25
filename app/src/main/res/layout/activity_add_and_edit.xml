@@ -6,7 +6,7 @@
     <data>
         <variable
             name="clickHandler"
-            type="com.example.e_bookrecordkeeper.AddAndEditActivity.AddAndEditActivityClickHandlers"/>
+            type="com.example.e_bookrecordkeeper.view.AddAndEditActivity.AddAndEditActivityClickHandlers"/>
         <variable
             name="book"
             type="com.example.e_bookrecordkeeper.model.Book"/>

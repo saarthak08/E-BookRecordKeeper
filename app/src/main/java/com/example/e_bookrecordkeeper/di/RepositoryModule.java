@@ -13,6 +13,7 @@ import dagger.Provides;
 @Module
 public class RepositoryModule {
 
+    @Singleton
     @Provides
     Repository providesRepository(Application application)
     {

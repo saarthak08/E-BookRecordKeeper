@@ -15,6 +15,7 @@ public class ApplicationModule {
         this.application = application;
     }
 
+    @Singleton
     @Provides
     Application getApplicationContext()
     {

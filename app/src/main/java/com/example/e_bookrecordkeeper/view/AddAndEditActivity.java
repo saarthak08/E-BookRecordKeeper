@@ -1,4 +1,4 @@
-package com.example.e_bookrecordkeeper;
+package com.example.e_bookrecordkeeper.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.e_bookrecordkeeper.R;
 import com.example.e_bookrecordkeeper.databinding.ActivityAddAndEditBinding;
 import com.example.e_bookrecordkeeper.model.Book;
 
@@ -33,7 +34,7 @@ public class AddAndEditActivity extends AppCompatActivity {
         activityAddAndEditBinding= DataBindingUtil.setContentView(this,R.layout.activity_add_and_edit);
         activityAddAndEditBinding.setBook(book);
 
-        addAndEditActivityClickHandlers = new AddAndEditActivityClickHandlers(this);
+        addAndEditActivityClickHandlers = new AddAndEditActivityClickHandlers(AddAndEditActivity.this);
         activityAddAndEditBinding.setClickHandler(addAndEditActivityClickHandlers);
 
         Intent intent=getIntent();

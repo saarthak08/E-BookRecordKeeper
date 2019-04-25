@@ -1,18 +1,20 @@
-package com.example.e_bookrecordkeeper;
+package com.example.e_bookrecordkeeper.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.e_bookrecordkeeper.databinding.BookListItemBinding;
-import com.example.e_bookrecordkeeper.model.Book;
-
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.e_bookrecordkeeper.R;
+import com.example.e_bookrecordkeeper.databinding.BookListItemBinding;
+import com.example.e_bookrecordkeeper.model.Book;
+import com.example.e_bookrecordkeeper.utils.BookDiffUtil;
+
+import java.util.ArrayList;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder>{
     private OnItemClickListener listener;
