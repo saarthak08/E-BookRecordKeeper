@@ -9,6 +9,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface BookDAO {
 
@@ -22,8 +24,8 @@ public interface BookDAO {
     void deleteBook(Book book);
 
     @Query("select * from book_table")
-    LiveData<List<Book>> getAllBooks();
+    Flowable<List<Book>> getAllBooks();
 
     @Query("select * from book_table where category_id==:categoryId")
-    LiveData<List<Book>> getCertainBooks(int categoryId);
+    Flowable<List<Book>> getCertainBooks(int categoryId);
 }

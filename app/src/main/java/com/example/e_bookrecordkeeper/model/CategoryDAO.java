@@ -9,6 +9,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface CategoryDAO {
 
@@ -22,5 +24,5 @@ public interface CategoryDAO {
     void deleteCategory(Category category);
 
     @Query("SELECT * from categories_table")
-    LiveData<List<Category>> getAllCategories();
+    Flowable<List<Category>> getAllCategories();
 }
