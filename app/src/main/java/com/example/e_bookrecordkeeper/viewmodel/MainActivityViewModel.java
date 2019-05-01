@@ -38,4 +38,8 @@ public class MainActivityViewModel extends ViewModel {
     {
         repository.deleteBook(book);
     }
+    public void cleardisposable()
+    {
+        repository.clearDisposable();
+    }
 }
