@@ -6,3 +6,4 @@ This app features:
 2) Room Database
 3) Android Data Binding
 4) Dagger 2 Dependency Injection
+5) RxJava2
